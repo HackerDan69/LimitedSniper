@@ -6,7 +6,6 @@ async function getauth(csrf) {
     var cookie = (await fetch('https://auth.roblox.com/v1/authentication-ticket', {
         method: 'POST',
         credentials: 'include',
-        Access-Control-Allow-Origin: *
         headers: { 'x-csrf-token': csrf}
     })).headers.get('rbx-authentication-ticket');
     return cookie ;
